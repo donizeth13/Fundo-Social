@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Dependências do Composer (instale com `composer install`)
+/vendor/
+
+# Configurações locais da IDE
+/.vscode/
+
+# Ambiente e logs
+.env
+*.log
+
+# Arquivos enviados em tempo de execução (mantém apenas o diretório)
+/uploads/*
+!/uploads/.gitkeep
+
+# Backups e temporários
+*.bak
+*.old
+*.tmp
+
+# Arquivos de sistema
+Thumbs.db
