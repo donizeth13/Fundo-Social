@@ -155,6 +155,4 @@ INSERT IGNORE INTO itens (codigo, nome, quantidade, descricao) VALUES
 ('ITM-SEED-005', 'Óleo de soja', 180, 'Óleo de soja');
 
 INSERT IGNORE INTO beneficiarios (nome, cpf, telefone, email, renda_per_capita, situacao_trabalho, dependentes, endereco, bairro) VALUES
-('Ana Silva Santos', '12345678901', '(11) 99999-0001', 'ana@email.com', 150.00, 'desempregado', 4, 'Rua das Flores, 123', 'Centro'),
-('Carlos Santos', '12345678902', '(11) 99999-0002', 'carlos@email.com', 280.00, 'desempregado', 3, 'Avenida Paulista, 456', 'Jardim América'),
-('Maria Oliveira', '12345678903', '(11) 99999-0003', 'maria@email.com', 450.00, 'empregado', 2, 'Rua dos Pinheiros, 789', 'Jardim Primavera');
+
