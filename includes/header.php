@@ -1,8 +1,5 @@
 <?php
-/**
- * Header do sistema
- * Inclui navbar e cabeçalho de todas as páginas protegidas
- */
+
 
 // Verificar conexão com o banco
 require_once __DIR__ . '/../config/database.php';

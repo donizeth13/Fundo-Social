@@ -1,21 +1,11 @@
 <?php
-/**
- * Consultas do relatório de movimentações de estoque por produto.
- *
- * Cada produto é apresentado com quatro indicadores do período consultado:
- * saldo anterior, entradas, saídas e saldo atual.
- */
 
-/** Limites usados quando o filtro de data é deixado em branco. */
+
+
 const RELATORIO_DATA_INICIO_SEM_LIMITE = '1970-01-01 00:00:00';
 const RELATORIO_DATA_FIM_SEM_LIMITE = '9999-12-31 23:59:59';
 
-/**
- * Normaliza o período informado no formulário.
- * Datas em branco significam "sem limite" (todo o período).
- *
- * @return array{data_inicio: string, data_fim: string, inicio_sql: string, fim_sql: string, tem_limite_inicial: bool, rotulo: string, aviso: string}
- */
+
 function normalizarPeriodoRelatorio($dataInicio, $dataFim) {
     $dataInicio = is_string($dataInicio) ? trim($dataInicio) : '';
     $dataFim = is_string($dataFim) ? trim($dataFim) : '';
@@ -48,9 +38,7 @@ function normalizarPeriodoRelatorio($dataInicio, $dataFim) {
     ];
 }
 
-/**
- * Texto do período usado nos títulos, na impressão e na exportação.
- */
+
 function montarRotuloPeriodoRelatorio($dataInicio, $dataFim) {
     if ($dataInicio === '' && $dataFim === '') {
         return 'Todo o período';
@@ -64,20 +52,12 @@ function montarRotuloPeriodoRelatorio($dataInicio, $dataFim) {
     return formatDateBr($dataInicio) . ' a ' . formatDateBr($dataFim);
 }
 
-/**
- * Primeiro dia do mês corrente, usado como filtro inicial padrão.
- */
+
 function getDataInicioPadraoRelatorio() {
     return date('Y-m-01');
 }
 
-/**
- * Resumo por produto no período informado.
- *
- * O saldo anterior é o saldo gravado na última movimentação anterior ao período;
- * produtos sem histórico anterior começam em zero. O saldo atual é o saldo no fim
- * do período consultado (saldo anterior + entradas - saídas).
- */
+
 function getResumoMovimentacoesPorProduto($inicioSql, $fimSql, $itemId = 0) {
     global $pdo;
 
@@ -127,9 +107,7 @@ function getResumoMovimentacoesPorProduto($inicioSql, $fimSql, $itemId = 0) {
     return prepararLinhasResumo($stmt->fetchAll());
 }
 
-/**
- * Converte os valores vindos do banco e calcula o saldo atual de cada produto.
- */
+
 function prepararLinhasResumo(array $linhas) {
     $preparadas = [];
 
@@ -157,11 +135,7 @@ function prepararLinhasResumo(array $linhas) {
     return $preparadas;
 }
 
-/**
- * Soma as colunas do resumo para a linha de totais.
- *
- * @return array{saldo_anterior: int, entradas: int, saidas: int, saldo_atual: int, movimentos: int, produtos: int}
- */
+
 function somarResumoMovimentacoes(array $linhas) {
     $totais = [
         'saldo_anterior' => 0,
@@ -183,9 +157,7 @@ function somarResumoMovimentacoes(array $linhas) {
     return $totais;
 }
 
-/**
- * Produtos cujo histórico de movimentações não fecha com o saldo cadastrado.
- */
+
 function filtrarDivergenciasResumo(array $linhas) {
     $divergentes = [];
 
@@ -198,9 +170,7 @@ function filtrarDivergenciasResumo(array $linhas) {
     return $divergentes;
 }
 
-/**
- * Movimentações de um produto dentro do período, em ordem cronológica.
- */
+
 function getMovimentacoesItemPeriodo($itemId, $inicioSql, $fimSql, $limite = 200) {
     global $pdo;
 
@@ -232,9 +202,7 @@ function getMovimentacoesItemPeriodo($itemId, $inicioSql, $fimSql, $limite = 200
     return $stmt->fetchAll();
 }
 
-/**
- * Linhas do resumo prontas para exportação em CSV.
- */
+
 function montarLinhasCsvResumo(array $linhas) {
     $registros = [];
 

@@ -1,11 +1,6 @@
-/**
- * Script JS principal do Sistema de Gestão do Fundo Social
- * Para uso com XAMPP
- */
 
-/**
- * Função para mostrar alertas
- */
+
+
 function showAlert(message, type = 'success', duration = 3000) {
     const alertContainer = document.createElement('div');
     alertContainer.className = `alert alert-${type} animate`;
@@ -26,17 +21,13 @@ function showAlert(message, type = 'success', duration = 3000) {
     }, duration);
 }
 
-/**
- * Função para abrir modal
- */
+
 function openModal(modalId) {
     const modal = new bootstrap.Modal(document.getElementById(modalId));
     modal.show();
 }
 
-/**
- * Função para fechar modal
- */
+
 function closeModal(modalId) {
     const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
     if (modal) {
@@ -44,9 +35,7 @@ function closeModal(modalId) {
     }
 }
 
-/**
- * Função para deletar registro
- */
+
 async function confirmDelete(url, message = 'Tem certeza que deseja excluir este registro?') {
     const confirmed = confirm(message);
     if (confirmed) {
@@ -72,16 +61,12 @@ async function confirmDelete(url, message = 'Tem certeza que deseja excluir este
     }
 }
 
-/**
- * Função para verificar se é número
- */
+
 function isNumeric(val) {
     return !isNaN(parseFloat(val)) && isFinite(val);
 }
 
-/**
- * Inicialização do sistema
- */
+
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

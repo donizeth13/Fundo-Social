@@ -1,7 +1,5 @@
 <?php
-/**
- * Página inicial do sistema (Dashboard)
- */
+
 ob_start();
 
 require_once __DIR__ . '/../config/database.php';

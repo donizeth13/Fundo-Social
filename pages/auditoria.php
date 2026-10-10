@@ -1,7 +1,5 @@
 <?php
-/**
- * Consulta de auditoria do sistema
- */
+
 ob_start();
 
 require_once __DIR__ . '/../config/database.php';

@@ -1,8 +1,5 @@
 <?php
-/**
- * Página de Login do Sistema de Gestão do Fundo Social
- * Para uso com XAMPP
- */
+
 ob_start();
 
 // Incluir configurações

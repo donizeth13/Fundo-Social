@@ -1,11 +1,7 @@
 <?php
-/**
- * Funções gerais da aplicação - Parte 1 (Conexão e Autenticação)
- */
 
-/**
- * Inicia a conexão com o banco de dados
- */
+
+
 function connectDB() {
     global $pdo;
     try {
@@ -23,38 +19,28 @@ function connectDB() {
     }
 }
 
-/**
- * Redireciona para página de login se não estiver logado
- */
+
 function requireLogin() {
     if (!isLoggedIn()) {
         redirect(PAGES_URL . 'login.php');
     }
 }
 
-/**
- * Redireciona para página de acesso negado se não tiver permissão
- */
+
 function requirePermission($permissao) {
     if (!userCan($permissao)) {
         redirect(PAGES_URL . 'dashboard.php', 'Acesso negado. Você não tem permissão para acessar esta área.', 'error');
     }
 }
 
-/**
- * Gera um token de segurança
- */
+
 function generateToken($length = 32) {
     return bin2hex(random_bytes($length));
 }
 
-/**
- * Funções gerais da aplicação - Parte 2 (Validação e Formatação)
- */
 
-/**
- * Valida e formata um CPF
- */
+
+
 function formatCPF($cpf) {
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
     if (strlen($cpf) !== 11) {
@@ -66,9 +52,7 @@ function formatCPF($cpf) {
     return $cpf;
 }
 
-/**
- * Valida e formata um CNPJ
- */
+
 function formatCNPJ($cnpj) {
     $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
     if (strlen($cnpj) !== 14) {
@@ -77,9 +61,7 @@ function formatCNPJ($cnpj) {
     return $cnpj;
 }
 
-/**
- * Valida e formata um telefone
- */
+
 function formatPhone($phone) {
     $phone = preg_replace('/[^0-9]/', '', $phone);
     if (strlen($phone) >= 12 && substr($phone, 0, 2) === '55') {
@@ -91,31 +73,23 @@ function formatPhone($phone) {
     return $phone;
 }
 
-/**
- * Gera um código de documento (documento único)
- */
+
 function generateDocumentCode($length = 8) {
     return 'DOC-' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, $length));
 }
 
-/**
- * Valida se um valor é numérico
- */
+
 function isNumericValue($value) {
     return is_numeric($value) && $value >= 0;
 }
 
-/**
- * Valida se uma data é válida no formato brasileiro
- */
+
 function isValidDateBr($date) {
     $d = DateTime::createFromFormat('d/m/Y', $date);
     return $d && $d->format('d/m/Y') === $date;
 }
 
-/**
- * Valida se uma data é válida no formato MySQL
- */
+
 function isValidDateMySql($date) {
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') === $date;
@@ -177,22 +151,16 @@ function recordStockMovement($itemId, $quantityInitial, $quantityFinal, $type, $
     return $stmt->execute([$guideId, $itemId, $quantityInitial, $quantityFinal, $quantityMoved, $type]);
 }
 
-/**
- * Funções gerais da aplicação - Parte 3 (Busca e Estatísticas)
- */
 
-/**
- * Busca os itens do estoque
- */
+
+
 function getItems($limit = 50, $offset = 0) {
     global $pdo;
     $stmt = $pdo->query("SELECT id, codigo, nome, quantidade, descricao, observacao, created_at, updated_at FROM itens ORDER BY nome LIMIT $limit OFFSET $offset");
     return $stmt->fetchAll();
 }
 
-/**
- * Retorna os limites de controle de estoque (em unidades)
- */
+
 function getStockThresholds() {
     return [
         'maximo' => ESTOQUE_LIMITE_MAXIMO,
@@ -200,12 +168,7 @@ function getStockThresholds() {
     ];
 }
 
-/**
- * Classifica o nível de estoque de um item.
- * - 'limite': atingiu a capacidade máxima (gera aviso de estoque cheio).
- * - 'atencao': no limite de segurança ou abaixo (gera aviso de reposição).
- * - 'normal': dentro da faixa ideal.
- */
+
 function classifyStockLevel($quantidade) {
     $thresholds = getStockThresholds();
     if ((int)$quantidade >= $thresholds['maximo']) {
@@ -217,9 +180,7 @@ function classifyStockLevel($quantidade) {
     return 'normal';
 }
 
-/**
- * Lista os itens que atingiram a capacidade máxima do estoque
- */
+
 function getItensNoLimite($limit = null) {
     global $pdo;
     $sql = "SELECT id, nome, quantidade FROM itens WHERE quantidade >= ? ORDER BY quantidade DESC, nome";
@@ -231,9 +192,7 @@ function getItensNoLimite($limit = null) {
     return $stmt->fetchAll();
 }
 
-/**
- * Conta os itens que atingiram a capacidade máxima do estoque
- */
+
 function countItensNoLimite() {
     global $pdo;
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM itens WHERE quantidade >= ?");
@@ -241,9 +200,7 @@ function countItensNoLimite() {
     return (int)$stmt->fetchColumn();
 }
 
-/**
- * Conta os itens com estoque em atenção (no limite de segurança ou abaixo)
- */
+
 function countItensEmAtencao() {
     global $pdo;
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM itens WHERE quantidade <= ?");
@@ -251,9 +208,7 @@ function countItensEmAtencao() {
     return (int)$stmt->fetchColumn();
 }
 
-/**
- * Busca um item pelo ID
- */
+
 function getItemById($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM itens WHERE id = ?");
@@ -261,9 +216,7 @@ function getItemById($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-/**
- * Busca as guias de autorização
- */
+
 function getGuias($limit = 50, $offset = 0, $status = null) {
     global $pdo;
     $sql = "SELECT g.*, i.nome as item_nome, u.nome as usuario_nome, b.nome as beneficiario_nome
@@ -285,9 +238,7 @@ function getGuias($limit = 50, $offset = 0, $status = null) {
     return $stmt->fetchAll();
 }
 
-/**
- * Busca guia pelo ID
- */
+
 function getGuiaById($id) {
     global $pdo;
     $sql = "SELECT g.*, i.nome as item_nome, u.nome as usuario_nome, b.nome as beneficiario_nome, b.cpf as beneficiario_cpf
@@ -301,9 +252,7 @@ function getGuiaById($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-/**
- * Busca beneficiários
- */
+
 function getBeneficiarios($limit = 50, $offset = 0, $search = '') {
     global $pdo;
     $sql = "SELECT * FROM beneficiarios";
@@ -321,9 +270,7 @@ function getBeneficiarios($limit = 50, $offset = 0, $search = '') {
     return $stmt->fetchAll();
 }
 
-/**
- * Busca beneficiário pelo ID
- */
+
 function getBeneficiarioById($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM beneficiarios WHERE id = ?");
@@ -331,9 +278,7 @@ function getBeneficiarioById($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-/**
- * Busca usuários
- */
+
 function getUsuarios($limit = 50, $offset = 0, $search = '') {
     global $pdo;
     $sql = "SELECT * FROM usuarios";
@@ -351,9 +296,7 @@ function getUsuarios($limit = 50, $offset = 0, $search = '') {
     return $stmt->fetchAll();
 }
 
-/**
- * Busca usuário pelo ID
- */
+
 function getUserById($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
@@ -361,9 +304,7 @@ function getUserById($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-/**
- * Busca estatísticas do sistema
- */
+
 function getStatistics() {
     global $pdo;
     $stats = [];
@@ -397,9 +338,7 @@ function getStatistics() {
     return $stats;
 }
 
-/**
- * Atualiza a quantidade de um item no estoque
- */
+
 function updateItemQuantidade($itemId, $quantidadeAtual, $quantidadeAdicionar) {
     global $pdo;
     if ((int)$quantidadeAdicionar < 0) {
@@ -441,18 +380,14 @@ function updateItemQuantidade($itemId, $quantidadeAtual, $quantidadeAdicionar) {
     }
 }
 
-/**
- * Reseta a senha de um usuário
- */
+
 function resetUserPassword($userId, $novoHash) {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE usuarios SET senha = ?, senha_resetada = 1, resetado_em = NOW() WHERE id = ?");
     return $stmt->execute([$novoHash, $userId]);
 }
 
-/**
- * Exporta dados em CSV
- */
+
 function exportToCSV($data, $filename) {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=' . $filename . '.csv');

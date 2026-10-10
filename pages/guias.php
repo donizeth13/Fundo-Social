@@ -1,7 +1,5 @@
 <?php
-/**
- * Página de Gestão de Guias de Autorização
- */
+
 ob_start();
 
 require_once __DIR__ . '/../config/database.php';

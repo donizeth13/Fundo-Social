@@ -1,7 +1,5 @@
 <?php
-/**
- * Geração e download de uma guia em PDF
- */
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../includes/functions.php';

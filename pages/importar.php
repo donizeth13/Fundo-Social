@@ -1,7 +1,5 @@
 <?php
-/**
- * Importação e saneamento de beneficiários em CSV
- */
+
 ob_start();
 
 require_once __DIR__ . '/../config/database.php';
