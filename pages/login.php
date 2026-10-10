@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="mb-0">
                                 <small>
                                     <i class="fas fa-info-circle text-muted me-1"></i>
-                                    Para fins de demonstração, utilize o email: <strong>admin@fundo.com</strong>
+                                    <strong></strong>
                                 </small>
                             </p>
                         </div>
