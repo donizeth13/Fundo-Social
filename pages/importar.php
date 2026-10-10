@@ -18,7 +18,7 @@ if (isset($_GET['modelo'])) {
     $output = fopen('php://output', 'w');
     fwrite($output, "\xEF\xBB\xBF");
     fputcsv($output, ['nome', 'cpf', 'telefone', 'email', 'renda_per_capita', 'situacao_trabalho', 'dependentes_menores', 'endereco', 'bairro', 'cidade', 'estado'], ';');
-    fputcsv($output, ['Nome Exemplo', '12345678901', '11999990000', 'exemplo@email.com', '250,00', 'desempregado', '2', 'Rua Exemplo, 10', 'Centro', 'Caçapava', 'SP'], ';');
+    fputcsv($output, ['Nome Exemplo', '12345678901', '11999990000', 'exemplo@email.com', '250,00', 'desempregado', '2', 'Rua Exemplo, 10', 'Centro', '', 'SP'], ';');
     fclose($output);
     exit();
 }
