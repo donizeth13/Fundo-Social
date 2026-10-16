@@ -7,8 +7,7 @@ Sistema local de gestão de beneficiários, estoque e guias, executado com PHP e
 1. Inicie Apache e MySQL no painel do XAMPP.
 2. Abra `http://localhost/phpmyadmin` e importe `fundo_social.sql`. O script cria o banco `fundo_social`, as tabelas e os dados de demonstração; os cadastros existentes não são apagados.
 3. Instale o Composer, abra o terminal na pasta do projeto e execute `composer install` para instalar a geração de PDF das guias.
-4. Acesse `http://localhost/Fundo%20Social/pages/login.php`.
-5. Entre com `admin@fundo.com` e `admin123`.
+4. Acesse `http://localhost/Fundo%20Social/pages/login.php
 
 A conexão padrão está em `config/database.php` (usuário `root`, senha vazia, padrão do XAMPP). Para outro ambiente, ajuste esses valores localmente.
 
